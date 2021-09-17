@@ -4,13 +4,11 @@
         "es2020": true
     },
     "extends": [
-        "airbnb-base",
         "airbnb-typescript/base",
-        "plugin:import/errors",
-        "plugin:import/warnings",
         "plugin:import/typescript",
         "plugin:prettier/recommended",
-        "plugin:nestjs/recommended"
+        "plugin:nestjs/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -20,6 +18,7 @@
     },
     "plugins": [
         "@typescript-eslint",
+        "import",
         "nestjs",
         "prettier"
     ],
