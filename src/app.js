@@ -1,7 +1,6 @@
 const express = require('express');
 
 const app = express();
-const port = 3000;
 
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
@@ -21,10 +20,6 @@ app.get('/', (req, res) => {
 // convert error to ApiError, if needed
 app.use(errorConverter);
 
-// handle error
 app.use(errorHandler);
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+module.exports = app;

@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -27,42 +28,22 @@ const userSchema = mongoose.Schema(
   },
 );
 
-// // add plugin that converts mongoose to json
-// userSchema.plugin(toJSON);
-// userSchema.plugin(paginate);
+userSchema.statics.isUsernameTaken = async function isUsernameTaken(
+  username,
+  excludeUserId,
+) {
+  //                                               ne == not equal
+  const user = await this.findOne({ username, _id: { $ne: excludeUserId } });
+  // (!!) syntax explain here : https://stackoverflow.com/a/29312197/13251493
+  return !!user;
+};
 
-// /**
-//  * Check if email is taken
-//  * @param {string} email - The user's email
-//  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
-//  * @returns {Promise<boolean>}
-//  */
-// userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
-//   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
-//   return !!user;
-// };
+userSchema.methods.isPasswordMatch = async function isPasswordMatch(password) {
+  const user = this;
+  return user.password === password;
+  // return bcrypt.compare(password, user.password);
+};
 
-// /**
-//  * Check if password matches the user's password
-//  * @param {string} password
-//  * @returns {Promise<boolean>}
-//  */
-// userSchema.methods.isPasswordMatch = async function (password) {
-//   const user = this;
-//   return bcrypt.compare(password, user.password);
-// };
-
-// userSchema.pre('save', async function (next) {
-//   const user = this;
-//   if (user.isModified('password')) {
-//     user.password = await bcrypt.hash(user.password, 8);
-//   }
-//   next();
-// });
-
-/**
- * @typedef User
- */
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
