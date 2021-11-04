@@ -1,0 +1,28 @@
+{
+  "name": "js-fullstack-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bdeguigne/js-fullstack-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bdeguigne/js-fullstack-back/issues"
+  },
+  "homepage": "https://github.com/bdeguigne/js-fullstack-back#readme",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^14.2.1",
+    "express": "^4.17.1",
+    "http-status": "^1.5.0",
+    "joi": "^17.4.2",
+    "nodemon": "^2.0.14"
+  }
+}
