@@ -1,5 +1,6 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+
+const app = express();
 const port = 3000;
 
 const routes = require('./routes');
@@ -14,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  res.send('Hello World!');
+});
 
 // convert error to ApiError, if needed
 app.use(errorConverter);
@@ -24,5 +25,6 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+  // eslint-disable-next-line no-console
+  console.log(`Example app listening at http://localhost:${port}`);
+});

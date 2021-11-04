@@ -1,4 +1,4 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 
@@ -15,13 +15,12 @@ const errorConverter = (err, req, res, next) => {
   next(error);
 };
 
-// eslint-disable-next-line no-unused-vars
-const errorHandler = (err, req, res, next) => {
-  let { statusCode, message } = err;
-//   if (config.env === 'production' && !err.isOperational) {
-//     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-//     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
-//   }
+const errorHandler = (err, _, res) => {
+  const { statusCode, message } = err;
+  //   if (config.env === 'production' && !err.isOperational) {
+  //     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
+  //     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+  //   }
 
   res.locals.errorMessage = err.message;
 
@@ -31,9 +30,9 @@ const errorHandler = (err, req, res, next) => {
     // ...(config.env === 'development' && { stack: err.stack }),
   };
 
-//   if (config.env === 'development') {
-//     logger.error(err);
-//   }
+  //   if (config.env === 'development') {
+  //     logger.error(err);
+  //   }
 
   res.status(statusCode).send(response);
 };
