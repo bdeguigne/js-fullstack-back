@@ -1,7 +1,6 @@
 const Server = require('socket.io');
-const { validateSocket } = require('../middlewares/validate');
-const { joinLobby } = require('../validations/game.validation');
-const gameController = require('../controllers/game.controller');
+const { validateSocketMessage } = require('../middlewares/validate');
+const subscriptions = require('../socket');
 
 const io = Server();
 
@@ -19,7 +18,9 @@ const api = {
 io.on('connection', (socket) => {
   console.log('A user connected', socket.client.id);
 
-  socket.on('lobby', validateSocket(joinLobby, gameController.joinLobby));
+  subscriptions.forEach((subscription) => {
+    socket.on(subscription.name, validateSocketMessage(subscription.events));
+  });
 });
 
 exports.api = api;
