@@ -1,9 +1,13 @@
+const app = require('express')();
+const http = require('http').Server(app);
+// const io = require('socket.io')(http);
 const express = require('express');
-
-const app = express();
+const { io } = require('./utils/socket');
 
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
+
+io.attach(http);
 
 // parse json request body
 app.use(express.json());
@@ -13,13 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
 // convert error to ApiError, if needed
 app.use(errorConverter);
 
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = http;
