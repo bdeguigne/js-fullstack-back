@@ -7,6 +7,9 @@ const { io } = require('./utils/socket');
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
 
+// TODO GESTION D'ENVS
+console.log('ne pas ooublier la gestion d env');
+
 io.attach(http);
 
 // parse json request body
