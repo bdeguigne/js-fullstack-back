@@ -4,6 +4,7 @@ const http = require('http').Server(app);
 const express = require('express');
 const { io } = require('./utils/socket');
 
+const cors = require('cors');
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
 
@@ -21,5 +22,8 @@ app.use(routes);
 app.use(errorConverter);
 
 app.use(errorHandler);
+
+app.use(cors());
+app.options('*', cors());
 
 module.exports = http;
