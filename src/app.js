@@ -5,7 +5,6 @@ const http = require('http').Server(app);
 const express = require('express');
 const { io } = require('./utils/socket');
 
-const cors = require('cors');
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
 
