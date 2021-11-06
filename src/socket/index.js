@@ -28,9 +28,9 @@ const subscriptions = [
     name: 'game',
     events: [
       {
-        name: 'connect',
-        validationSchema: gameValidation.connect,
-        controller: gameController.connect,
+        name: 'start',
+        validationSchema: gameValidation.start,
+        controller: gameController.start,
       },
       {
         name: 'next',

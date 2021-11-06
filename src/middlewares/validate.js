@@ -31,10 +31,14 @@ const emitError = (error) => {
   });
 };
 
-// First verify if the message contains the 'event' property
-// Then loop through each 'events'. Find the appropriate event name and verify the 'validationSchema'
-// If everything is ok, call the controller, emit error in 'error' event otherwise.
-const validateSocketMessage = (events) => (data) => {
+/**
+ * First verify if the message contains the 'event' property
+ *
+ * Then loop through each 'events'. Find the appropriate event name and verify the 'validationSchema'
+ *
+ * If everything is ok, call the controller, emit error in 'error' event otherwise.
+ */
+const validateSocketMessage = (events, client) => (data) => {
   const { value: socketValue, error: socketError } = Joi.compile(
     socketValidation.event,
   ).validate(data);
@@ -55,7 +59,7 @@ const validateSocketMessage = (events) => (data) => {
         if (error) {
           emitError(error);
         } else {
-          event.controller(value);
+          event.controller(value, client);
         }
       }
     });

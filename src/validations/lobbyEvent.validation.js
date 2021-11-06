@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const join = {
-  playerId: Joi.string().required(),
+  playerName: Joi.string().required(),
   roomId: Joi.string().required(),
 };
 
