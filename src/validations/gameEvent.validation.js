@@ -1,22 +1,21 @@
 const Joi = require('joi');
 
-const connect = {
-  playerId: Joi.string().required(),
+const start = {
   roomId: Joi.string().required(),
 };
 
 const next = {
-  playerId: Joi.string().required(),
+  playerName: Joi.string().required(),
   roomId: Joi.string().required(),
 };
 
 const playerWins = {
-  playerId: Joi.string().required(),
+  playerName: Joi.string().required(),
   roomId: Joi.string().required(),
 };
 
 module.exports = {
-  connect,
+  start,
   next,
   playerWins,
 };

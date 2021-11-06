@@ -13,13 +13,19 @@ const api = {
     console.log('join');
     io.sockets.join(room);
   },
+  to: (to, event, data) => {
+    io.sockets.to(to).emit(event, data);
+  },
 };
 
 io.on('connection', (socket) => {
   console.log('A user connected', socket.client.id);
 
   subscriptions.forEach((subscription) => {
-    socket.on(subscription.name, validateSocketMessage(subscription.events));
+    socket.on(
+      subscription.name,
+      validateSocketMessage(subscription.events, socket),
+    );
   });
 });
 
