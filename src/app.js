@@ -13,6 +13,7 @@ io.attach(http);
 // parse json request body
 app.use(express.json());
 
+app.use(cors())
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,7 +24,5 @@ app.use(errorConverter);
 
 app.use(errorHandler);
 
-app.use(cors());
-app.options('*', cors());
 
 module.exports = http;
