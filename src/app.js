@@ -1,3 +1,4 @@
+const cors = require('cors');
 const app = require('express')();
 const http = require('http').Server(app);
 // const io = require('socket.io')(http);
@@ -9,6 +10,8 @@ const { errorConverter, errorHandler } = require('./middlewares/errors');
 
 // TODO GESTION D'ENVS
 console.log('ne pas ooublier la gestion d env');
+
+app.use(cors());
 
 io.attach(http);
 
