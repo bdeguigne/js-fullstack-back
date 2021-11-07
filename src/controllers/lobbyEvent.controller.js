@@ -60,11 +60,13 @@ const play = (message) => {
 
   const playerTurn = room.playerA.name;
 
-  const { card, playerDeck } = nextMove(
+  const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
     JSON.parse(JSON.stringify(room.playerA)),
   );
 
-  console.log('AFTER MOVE ', playerDeck.length);
+  const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+    JSON.parse(JSON.stringify(room.playerB)),
+  );
 
   cache.set(message.roomId, {
     ...room,
@@ -73,9 +75,14 @@ const play = (message) => {
 
   Socket.api.to(message.roomId, 'lobby', {
     event: 'play',
-    playerTurn,
-    nextPlayer: playerTurn,
-    card,
+    playerA: {
+      username: room.playerA.name,
+      card: movePlayerACard,
+    },
+    playerB: {
+      username: room.playerB.name,
+      card: movePlayerBCard,
+    },
   });
 };
 
