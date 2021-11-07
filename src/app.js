@@ -8,9 +8,6 @@ const { io } = require('./utils/socket');
 const routes = require('./routes');
 const { errorConverter, errorHandler } = require('./middlewares/errors');
 
-// TODO GESTION D'ENVS
-console.log('ne pas ooublier la gestion d env');
-
 app.use(cors());
 
 io.attach(http);
@@ -18,7 +15,7 @@ io.attach(http);
 // parse json request body
 app.use(express.json());
 
-app.use(cors())
+app.use(cors());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,6 +25,5 @@ app.use(routes);
 app.use(errorConverter);
 
 app.use(errorHandler);
-
 
 module.exports = http;
