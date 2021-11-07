@@ -16,6 +16,7 @@ const join = (message, client) => {
       playerA: {
         name: message.playerName,
         deck: [],
+        points: 0,
       },
     });
     Socket.api.to(roomId, 'lobby', {
@@ -31,6 +32,7 @@ const join = (message, client) => {
       playerB: {
         name: message.playerName,
         deck: [],
+        points: 0,
       },
     });
     Socket.api.to(roomId, 'lobby', {

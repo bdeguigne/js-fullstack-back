@@ -26,6 +26,7 @@ const start = (message) => {
 
 const next = (message) => {
   const room = cache.get(message.roomId);
+  let winText = '';
   // const { card, playerDeck } = nextMove(player);
 
   const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
@@ -35,6 +36,14 @@ const next = (message) => {
   const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
     room.playerB,
   );
+
+  if (movePlayerACard.value > movePlayerBCard.value) {
+    room.playerA.points += 1;
+    winText = 'player A win';
+  } else if (movePlayerBCard.value > movePlayerACard.value) {
+    room.playerB.points += 1;
+    winText = 'player B win';
+  }
 
   cache.set(message.roomId, {
     ...room,
@@ -54,13 +63,16 @@ const next = (message) => {
   } else {
     Socket.api.to(message.roomId, 'game', {
       event: 'play',
+      text: winText,
       playerA: {
         username: room.playerA.name,
         card: movePlayerACard,
+        points: room.playerA.points,
       },
       playerB: {
         username: room.playerB.name,
         card: movePlayerBCard,
+        points: room.playerB.points,
       },
     });
   }
