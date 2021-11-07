@@ -36,18 +36,26 @@ const next = (message) => {
     player = room.playerB;
   }
   if (player.name === room.playerTurn) {
-    const { card, playerDeck } = nextMove(player);
+    // const { card, playerDeck } = nextMove(player);
+
+    const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
+      room.playerA,
+    );
+
+    const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+      room.playerB,
+    );
 
     cache.set(message.roomId, {
       ...room,
       playerTurn: isPlayerA ? room.playerB.name : room.playerA.name,
       playerA: {
         ...room.playerA,
-        deck: isPlayerA ? playerDeck : room.playerA.deck,
+        deck: movePlayerADeck,
       },
       playerB: {
         ...room.playerB,
-        deck: isPlayerA ? room.playerB.deck : playerDeck,
+        deck: movePlayerBDeck,
       },
     });
     if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
@@ -57,9 +65,14 @@ const next = (message) => {
     } else {
       Socket.api.to(message.roomId, 'game', {
         event: 'play',
-        playerTurn: room.playerTurn,
-        nextPlayer: isPlayerA ? room.playerB.name : room.playerA.name,
-        card,
+        playerA: {
+          username: room.playerA.name,
+          card: movePlayerACard,
+        },
+        playerB: {
+          username: room.playerB.name,
+          card: movePlayerBCard,
+        },
       });
     }
   } else {
