@@ -26,46 +26,69 @@ const start = (message) => {
 
 const next = (message) => {
   const room = cache.get(message.roomId);
-  let player = null;
-  let isPlayerA = false;
+  let winText = '';
+  // const { card, playerDeck } = nextMove(player);
 
-  if (message.playerName === room.playerA.name) {
-    player = room.playerA;
-    isPlayerA = true;
-  } else {
-    player = room.playerB;
-  }
-  if (player.name === room.playerTurn) {
-    const { card, playerDeck } = nextMove(player);
+  const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
+    room.playerA,
+  );
 
-    cache.set(message.roomId, {
-      ...room,
-      playerTurn: isPlayerA ? room.playerB.name : room.playerA.name,
-      playerA: {
-        ...room.playerA,
-        deck: isPlayerA ? playerDeck : room.playerA.deck,
-      },
-      playerB: {
-        ...room.playerB,
-        deck: isPlayerA ? room.playerB.deck : playerDeck,
-      },
-    });
-    if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
-      Socket.api.to(message.roomId, 'game', {
-        event: 'finished',
-      });
+  const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+    room.playerB,
+  );
+
+  if (movePlayerACard || movePlayerBCard) {
+    if (movePlayerACard.value > movePlayerBCard.value) {
+      room.playerA.points += 1;
+      winText = 'player A win';
+    } else if (movePlayerBCard.value > movePlayerACard.value) {
+      room.playerB.points += 1;
+      winText = 'player B win';
     } else {
-      Socket.api.to(message.roomId, 'game', {
-        event: 'play',
-        playerTurn: room.playerTurn,
-        nextPlayer: isPlayerA ? room.playerB.name : room.playerA.name,
-        card,
-      });
+      winText = 'draw';
     }
+  }
+
+  cache.set(message.roomId, {
+    ...room,
+    playerA: {
+      ...room.playerA,
+      deck: movePlayerADeck,
+    },
+    playerB: {
+      ...room.playerB,
+      deck: movePlayerBDeck,
+    },
+  });
+  if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
+    let playerWins = '';
+    let draw = false;
+    if (room.playerA.points > room.playerB.points) {
+      playerWins = room.playerA.name;
+    } else if (room.playerA.points < room.playerB.points) {
+      playerWins = room.playerB.name;
+    } else {
+      draw = true;
+    }
+    Socket.api.to(message.roomId, 'game', {
+      event: 'finished',
+      win: playerWins,
+      draw,
+    });
   } else {
     Socket.api.to(message.roomId, 'game', {
-      event: 'error',
-      data: `this is not your turn ${message.playerName} !`,
+      event: 'play',
+      text: winText,
+      playerA: {
+        username: room.playerA.name,
+        card: movePlayerACard,
+        points: room.playerA.points,
+      },
+      playerB: {
+        username: room.playerB.name,
+        card: movePlayerBCard,
+        points: room.playerB.points,
+      },
     });
   }
 };

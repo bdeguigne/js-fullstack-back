@@ -7,10 +7,6 @@ const join = (message, client) => {
   const { roomId } = message;
 
   client.join(roomId);
-  Socket.api.to(roomId, 'lobby', {
-    event: 'join',
-    data: `client ${message.playerName} joined!`,
-  });
 
   // Store players in cache with roomId as key
   const room = cache.get(roomId);
@@ -20,7 +16,14 @@ const join = (message, client) => {
       playerA: {
         name: message.playerName,
         deck: [],
+        points: 0,
       },
+    });
+    Socket.api.to(roomId, 'lobby', {
+      event: 'join',
+      playerA: message.playerName,
+      playerB: null,
+      ready: false,
     });
   } else {
     // player B joined
@@ -29,7 +32,14 @@ const join = (message, client) => {
       playerB: {
         name: message.playerName,
         deck: [],
+        points: 0,
       },
+    });
+    Socket.api.to(roomId, 'lobby', {
+      event: 'join',
+      playerA: room.playerA.name,
+      playerB: message.playerName,
+      ready: true,
     });
   }
 };
@@ -52,22 +62,29 @@ const play = (message) => {
 
   const playerTurn = room.playerA.name;
 
-  const { card, playerDeck } = nextMove(
+  const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
     JSON.parse(JSON.stringify(room.playerA)),
   );
 
-  console.log('AFTER MOVE ', playerDeck.length);
+  const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+    JSON.parse(JSON.stringify(room.playerB)),
+  );
 
   cache.set(message.roomId, {
     ...room,
     playerTurn,
   });
 
-  Socket.api.to(message.roomId, 'lobby', {
+  Socket.api.to(message.roomId, 'game', {
     event: 'play',
-    playerTurn,
-    nextPlayer: playerTurn,
-    card,
+    playerA: {
+      username: room.playerA.name,
+      card: movePlayerACard,
+    },
+    playerB: {
+      username: room.playerB.name,
+      card: movePlayerBCard,
+    },
   });
 };
 

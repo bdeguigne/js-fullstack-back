@@ -5,20 +5,39 @@ const lobbyService = require('../services/lobby.service');
 
 const getAllLobby = catchAsync(async (req, res) => {
   const lobbies = await lobbyService.getAllLobby();
-  res.status(httpStatus.OK).send(lobbies);
+  res.status(httpStatus.OK).send(
+    lobbies.map((lobby) => {
+      return {
+        id: lobby.id,
+        playerA: lobby.playerA,
+        playerB: lobby.playerB,
+        status: lobby.status,
+        createdAt: lobby.createdAt,
+        updateAt: lobby.updatedAt,
+      };
+    }),
+  );
 });
 
 const getLobby = catchAsync(async (req, res) => {
-  const user = await lobbyService.getLobbyById(req.params.userId);
-  if (!user) {
+  const lobby = await lobbyService.getLobbyById(req.params.userId);
+  if (!lobby) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Lobby not found');
   }
-  res.send(user);
+  res.send(lobby);
 });
 
 const create = catchAsync(async (req, res) => {
   const lobby = await lobbyService.create(req.body);
-  res.status(httpStatus.CREATED).send(lobby);
+
+  res.status(httpStatus.CREATED).send({
+    id: lobby.id,
+    playerA: lobby.playerA,
+    playerB: lobby.playerB,
+    status: lobby.status,
+    createdAt: lobby.createdAt,
+    updateAt: lobby.updatedAt,
+  });
 });
 
 const update = catchAsync(async (req, res) => {
