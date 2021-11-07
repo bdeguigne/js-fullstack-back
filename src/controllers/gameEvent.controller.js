@@ -62,16 +62,18 @@ const next = (message) => {
   });
   if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
     let playerWins = '';
+    let draw = false;
     if (room.playerA.points > room.playerB.points) {
-      playerWins = `Congratulations ${room.playerA.name}, you won this !`;
+      playerWins = room.playerA.name;
     } else if (room.playerA.points < room.playerB.points) {
-      playerWins = `Congratulations ${room.playerA.name}, you won this !`;
+      playerWins = room.playerB.name;
     } else {
-      playerWins = 'Draw !';
+      draw = true;
     }
     Socket.api.to(message.roomId, 'game', {
       event: 'finished',
       win: playerWins,
+      draw,
     });
   } else {
     Socket.api.to(message.roomId, 'game', {
