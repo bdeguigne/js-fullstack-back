@@ -29,7 +29,15 @@ const getLobby = catchAsync(async (req, res) => {
 
 const create = catchAsync(async (req, res) => {
   const lobby = await lobbyService.create(req.body);
-  res.status(httpStatus.CREATED).send(lobby);
+
+  res.status(httpStatus.CREATED).send({
+    id: lobby.id,
+    playerA: lobby.playerA,
+    playerB: lobby.playerB,
+    status: lobby.status,
+    createdAt: lobby.createdAt,
+    updateAt: lobby.updatedAt,
+  });
 });
 
 const update = catchAsync(async (req, res) => {
