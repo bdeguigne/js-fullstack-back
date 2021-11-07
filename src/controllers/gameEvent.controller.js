@@ -37,12 +37,16 @@ const next = (message) => {
     room.playerB,
   );
 
-  if (movePlayerACard.value > movePlayerBCard.value) {
-    room.playerA.points += 1;
-    winText = 'player A win';
-  } else if (movePlayerBCard.value > movePlayerACard.value) {
-    room.playerB.points += 1;
-    winText = 'player B win';
+  if (movePlayerACard || movePlayerBCard) {
+    if (movePlayerACard.value > movePlayerBCard.value) {
+      room.playerA.points += 1;
+      winText = 'player A win';
+    } else if (movePlayerBCard.value > movePlayerACard.value) {
+      room.playerB.points += 1;
+      winText = 'player B win';
+    } else {
+      winText = 'draw';
+    }
   }
 
   cache.set(message.roomId, {
