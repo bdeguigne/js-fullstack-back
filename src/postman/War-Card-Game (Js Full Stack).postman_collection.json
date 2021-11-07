@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "c48dd212-835b-487a-889e-a83c4274f6e8",
+		"name": "War-Card-Game (Js Full Stack)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "tata",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "toto",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/6184530e68b89c602c6e8786",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"6184530e68b89c602c6e8786"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/6184530e68b89c602c6e8786",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"6184530e68b89c602c6e8786"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "hello",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "fresh",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "hello",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "fresh",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:80808/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "80808",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOBBY",
+			"item": [
+				{
+					"name": "ALL Lobby",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lobby",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lobby"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lobby",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "playerA",
+									"value": "toto",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/lobby",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lobby"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lobby",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lobby/6187efa5b07569a70799fd7c",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lobby",
+								"6187efa5b07569a70799fd7c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lobby",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "playerB",
+									"value": "abc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/lobby/6187c6aa80870337fb590a80",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lobby",
+								"6187c6aa80870337fb590a80"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
