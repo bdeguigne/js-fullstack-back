@@ -11,6 +11,6 @@ router
 
 router
   .route('/login')
-  .get(validate(authValidation.login), authController.login);
+  .post(validate(authValidation.login), authController.login);
 
 module.exports = router;
