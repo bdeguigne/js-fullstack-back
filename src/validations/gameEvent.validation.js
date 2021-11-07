@@ -5,7 +5,6 @@ const start = {
 };
 
 const next = {
-  playerName: Joi.string().required(),
   roomId: Joi.string().required(),
 };
 

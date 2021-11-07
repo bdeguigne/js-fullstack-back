@@ -73,7 +73,7 @@ const play = (message) => {
     playerTurn,
   });
 
-  Socket.api.to(message.roomId, 'lobby', {
+  Socket.api.to(message.roomId, 'game', {
     event: 'play',
     playerA: {
       username: room.playerA.name,

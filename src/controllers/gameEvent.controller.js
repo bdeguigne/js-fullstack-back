@@ -26,59 +26,42 @@ const start = (message) => {
 
 const next = (message) => {
   const room = cache.get(message.roomId);
-  let player = null;
-  let isPlayerA = false;
+  // const { card, playerDeck } = nextMove(player);
 
-  if (message.playerName === room.playerA.name) {
-    player = room.playerA;
-    isPlayerA = true;
-  } else {
-    player = room.playerB;
-  }
-  if (player.name === room.playerTurn) {
-    // const { card, playerDeck } = nextMove(player);
+  const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
+    room.playerA,
+  );
 
-    const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
-      room.playerA,
-    );
+  const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+    room.playerB,
+  );
 
-    const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
-      room.playerB,
-    );
-
-    cache.set(message.roomId, {
-      ...room,
-      playerTurn: isPlayerA ? room.playerB.name : room.playerA.name,
-      playerA: {
-        ...room.playerA,
-        deck: movePlayerADeck,
-      },
-      playerB: {
-        ...room.playerB,
-        deck: movePlayerBDeck,
-      },
+  cache.set(message.roomId, {
+    ...room,
+    playerA: {
+      ...room.playerA,
+      deck: movePlayerADeck,
+    },
+    playerB: {
+      ...room.playerB,
+      deck: movePlayerBDeck,
+    },
+  });
+  if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
+    Socket.api.to(message.roomId, 'game', {
+      event: 'finished',
     });
-    if (room.playerA.deck.length === 0 || room.playerB.deck.length === 0) {
-      Socket.api.to(message.roomId, 'game', {
-        event: 'finished',
-      });
-    } else {
-      Socket.api.to(message.roomId, 'game', {
-        event: 'play',
-        playerA: {
-          username: room.playerA.name,
-          card: movePlayerACard,
-        },
-        playerB: {
-          username: room.playerB.name,
-          card: movePlayerBCard,
-        },
-      });
-    }
   } else {
     Socket.api.to(message.roomId, 'game', {
-      event: 'error',
-      data: `this is not your turn ${message.playerName} !`,
+      event: 'play',
+      playerA: {
+        username: room.playerA.name,
+        card: movePlayerACard,
+      },
+      playerB: {
+        username: room.playerB.name,
+        card: movePlayerBCard,
+      },
     });
   }
 };
