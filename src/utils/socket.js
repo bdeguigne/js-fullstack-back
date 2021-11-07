@@ -6,11 +6,9 @@ const io = Server();
 
 const api = {
   emit: (event, data) => {
-    console.log('EMIT', event, data);
     io.sockets.emit(event, data);
   },
   join: (room) => {
-    console.log('join');
     io.sockets.join(room);
   },
   to: (to, event, data) => {
@@ -19,8 +17,6 @@ const api = {
 };
 
 io.on('connection', (socket) => {
-  console.log('A user connected', socket.client.id);
-
   subscriptions.forEach((subscription) => {
     socket.on(
       subscription.name,

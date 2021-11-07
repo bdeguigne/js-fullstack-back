@@ -3,7 +3,6 @@ const cache = require('../utils/cache');
 const { shuffle, splitDeck, nextMove } = require('../utils/game');
 
 const join = (message, client) => {
-  console.log('Receive join message ', message);
   const { roomId } = message;
 
   client.join(roomId);
@@ -45,15 +44,8 @@ const join = (message, client) => {
 };
 
 const play = (message) => {
-  console.log('Receive play message', message);
-
   const deck = shuffle();
-
-  console.log('DECK LEN', deck.length);
   const { playerADeck, playerBDeck } = splitDeck(deck);
-
-  console.log('playerADeck LEN', playerADeck.length);
-  console.log('playerBDeck LEN', playerBDeck.length);
 
   const room = cache.get(message.roomId);
 
@@ -62,11 +54,11 @@ const play = (message) => {
 
   const playerTurn = room.playerA.name;
 
-  const { card: movePlayerACard, playerDeck: movePlayerADeck } = nextMove(
+  const { card: movePlayerACard } = nextMove(
     JSON.parse(JSON.stringify(room.playerA)),
   );
 
-  const { card: movePlayerBCard, playerDeck: movePlayerBDeck } = nextMove(
+  const { card: movePlayerBCard } = nextMove(
     JSON.parse(JSON.stringify(room.playerB)),
   );
 
@@ -88,12 +80,7 @@ const play = (message) => {
   });
 };
 
-const leave = (message) => {
-  console.log('LEAVE CONTROLLER ', message);
-};
-
 module.exports = {
   join,
   play,
-  leave,
 };

@@ -3,7 +3,6 @@ const { shuffle, splitDeck, nextMove } = require('../utils/game');
 const Socket = require('../utils/socket');
 
 const start = (message) => {
-  console.log('receive start message ', message);
   const deck = shuffle();
   const { playerADeck, playerBDeck } = splitDeck(deck);
 
@@ -20,8 +19,6 @@ const start = (message) => {
     event: 'start',
     playerTurn,
   });
-
-  console.log('START ', room);
 };
 
 const next = (message) => {
@@ -93,12 +90,7 @@ const next = (message) => {
   }
 };
 
-const playerWins = (message) => {
-  console.log('receive start message ', message);
-};
-
 module.exports = {
   start,
   next,
-  playerWins,
 };
