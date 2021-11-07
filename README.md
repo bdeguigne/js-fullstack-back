@@ -12,6 +12,8 @@ This is the server repository of this project : https://github.com/bdeguigne/js-
 
 Follow the README.md and setup the client.
 
+If you want to know all the differents endpoints of this api you can download the [Postman collection](https://github.com/bdeguigne/js-fullstack-back/blob/master/postman/War-Card-Game%20(Js%20Full%20Stack).postman_collection.json)
+
 <h3>Locally Installation</h3>
 
 ```
